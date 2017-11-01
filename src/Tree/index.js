@@ -268,7 +268,7 @@ export default class Tree extends React.Component {
             className="rd3t-g"
             transform={`translate(${translate.x},${translate.y})`}
           >
-            {links.map(linkData => (
+            {links.map((linkData, i) => (
               <Link
                 key={uuid.v4()}
                 orientation={orientation}
@@ -276,10 +276,10 @@ export default class Tree extends React.Component {
                 linkData={linkData}
                 transitionDuration={transitionDuration}
                 styles={styles.links}
+                debounceTimeout={nodes[i].depth * 25 + i * 30}
               />
             ))}
-
-            {nodes.map(nodeData => (
+            {nodes.map((nodeData, i) => (
               <Node
                 key={nodeData.id}
                 nodeSvgShape={nodeSvgShape}
@@ -293,6 +293,7 @@ export default class Tree extends React.Component {
                 circleRadius={circleRadius}
                 subscriptions={subscriptions}
                 styles={styles.nodes}
+                debounceTimeout={nodeData.depth * 25 + i * 30}
               />
             ))}
           </TransitionGroup>

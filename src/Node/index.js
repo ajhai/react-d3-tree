@@ -62,12 +62,14 @@ export default class Node extends React.Component {
         .style('opacity', opacity);
       done();
     } else {
-      select(this.node)
-        .transition()
-        .duration(transitionDuration)
-        .attr('transform', transform)
-        .style('opacity', opacity)
-        .each('end', done);
+      setTimeout(() => {
+        select(this.node)
+          .transition()
+          .duration(transitionDuration)
+          .attr('transform', transform)
+          .style('opacity', opacity)
+          .each('end', done);
+      }, this.props.debounceTimeout);
     }
   }
 
@@ -139,6 +141,7 @@ export default class Node extends React.Component {
 }
 
 Node.defaultProps = {
+  debounceTimeout: 0,
   textAnchor: 'start',
   attributes: undefined,
   circleRadius: undefined,
@@ -161,6 +164,7 @@ Node.propTypes = {
   nodeSvgShape: PropTypes.object.isRequired,
   orientation: PropTypes.oneOf(['horizontal', 'vertical']).isRequired,
   transitionDuration: PropTypes.number.isRequired,
+  debounceTimeout: PropTypes.number,
   onClick: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   attributes: PropTypes.object,
